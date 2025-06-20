@@ -53,7 +53,7 @@ interface CreateProps {
 }
 
 export default function CreateProduct({ product }: { product: Product }) {
-    const { data, setData, post, processing, errors } = useForm<Required<CreateProps>>({
+    const { data, setData, put:post, processing, errors } = useForm<Required<CreateProps>>({
         name_ar: product.name_ar,
         name_en: product.name_en,
         code: product.code,
@@ -75,7 +75,8 @@ export default function CreateProduct({ product }: { product: Product }) {
     // }, [data.units, setData]);
     const onSubmit: FormEventHandler = (e) => {
         e.preventDefault();
-        post(route('products.store'), {
+        post(route('products.update',product.id), {
+            showProgress:true
             // onFinish: () => reset('password'),
         });
     };
@@ -83,7 +84,7 @@ export default function CreateProduct({ product }: { product: Product }) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="p-4">
-                <form onSubmit={onSubmit} className="">
+                <form  className="">
                     <div className="grid grid-cols-2 gap-2">
                         <div className="grid gap-2">
                             <Label htmlFor="name_ar">name ar</Label>
@@ -119,6 +120,7 @@ export default function CreateProduct({ product }: { product: Product }) {
                             <Input
                                 id="code"
                                 type="number"
+
                                 required
                                 autoFocus
                                 tabIndex={1}
@@ -148,7 +150,10 @@ export default function CreateProduct({ product }: { product: Product }) {
                     </div>
 
                     <div className="p-4">
-                        <Button>Save</Button>
+                        <Button
+                            onClick={onSubmit}
+                        disabled={processing}
+                        >Save</Button>
                     </div>
                 </form>
             </div>

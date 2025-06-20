@@ -83,6 +83,7 @@ class ProductController extends Controller
                 'code'=>$request->code
             ]);
         }
+        $this->success(__('Product updated successfully.'));
     }
 
     /**
