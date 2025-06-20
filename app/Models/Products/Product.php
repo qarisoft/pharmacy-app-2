@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Cache;
 class Product extends Model
 {
     /** @use HasFactory<\Database\Factories\Products\ProductFactory> */
-    use HasFactory, Blamable;
+    use HasFactory;
 
     protected $with = ['units'];
     protected $guarded = [];

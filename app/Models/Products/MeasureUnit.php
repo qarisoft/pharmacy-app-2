@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class MeasureUnit extends Model
 {
     /** @use HasFactory<\Database\Factories\Products\MeasureUnitFactory> */
-    use HasFactory,Blamable;
+    use HasFactory;
 
     protected $casts=[
         'is_cost'=>'boolean',

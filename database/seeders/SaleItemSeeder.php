@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Activities\CreatedBy;
 use App\Models\Products\Company;
 use App\Models\Products\MeasureUnit;
 use App\Models\Products\MeasureUnitName;
@@ -48,6 +49,10 @@ class SaleItemSeeder extends Seeder
         if (file_exists('data/sales/with_draws.php')) {
             $with_draws = require 'data/sales/with_draws.php';
             WithDraw::factory()->createMany($with_draws);
+        }
+        if (file_exists('data/created_by.php')) {
+            $created_by = require 'data/created_by.php';
+            CreatedBy::factory()->createMany($created_by);
         }
 
     }
