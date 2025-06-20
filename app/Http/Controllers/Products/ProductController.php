@@ -73,7 +73,16 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'code'=>'required|numeric|min:2',
+        ]);
+
+        $p = Product::query()->find($id);
+        if ($request->code!==$p->code) {
+            $p->update([
+                'code'=>$request->code
+            ]);
+        }
     }
 
     /**
