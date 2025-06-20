@@ -9,7 +9,7 @@ import {
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -249,7 +249,7 @@ export default function SaleForm({
             }
             const a = Number(search);
             if (a && search.trim().length < 3) {
-                return (p.code == a) ?1:0;
+                return p.code == a ? 1 : 0;
             } else {
                 if (p.name_ar && p.name_ar.trim().includes(search.trim())) {
                     return 1;
@@ -259,7 +259,7 @@ export default function SaleForm({
                 }
             }
 
-            return (p.barcode && p.barcode == search) ? 1 : 0;
+            return p.barcode && p.barcode == search ? 1 : 0;
         },
         [allProducts],
     );
@@ -365,13 +365,7 @@ export default function SaleForm({
                                             }}
                                             className="w-[400px] p-0"
                                         >
-                                            <Command
-
-                                                id={'product-select'}
-                                                key={'product-select'}
-
-
-                                                filter={filterFunc}>
+                                            <Command id={'product-select'} key={'product-select'} filter={filterFunc}>
                                                 <CommandInput
                                                     value={value}
                                                     onValueChange={setValue}
@@ -379,27 +373,31 @@ export default function SaleForm({
                                                     placeholder="Search framework..."
                                                     className="h-9 w-[500px]"
                                                 />
-                                                <CommandList
-
-                                                >
-                                                    <CommandGroup>
-                                                        {value==''?[]: allProducts.map((prod, i) => (
-                                                            <CommandItem
-                                                                key={`${prod.id}-pc`}
-                                                                value={prod.id.toString()}
-                                                                onSelect={() => onProductSelected(prod)}
-                                                            >
-                                                                <span>
-                                                                    {i}
-                                                                    <span> - </span>
-                                                                    {prod.name_ar}
-                                                                </span>
-                                                                <Check
-                                                                    className={cn('ms-auto', value === prod.name_ar ? 'opacity-100' : 'opacity-0')}
-                                                                />
-                                                            </CommandItem>
-                                                        ))}
-                                                    </CommandGroup>
+                                                <CommandList>
+                                                        {value &&
+                                                        <CommandEmpty className={'p-2 text-center'}>Not found</CommandEmpty>
+                                                        }
+                                                        {value == ''
+                                                            ? []
+                                                            : allProducts.map((prod, i) => (
+                                                                  <CommandItem
+                                                                      key={`${prod.id}-pc`}
+                                                                      value={prod.id.toString()}
+                                                                      onSelect={() => onProductSelected(prod)}
+                                                                  >
+                                                                      <span>
+                                                                          {i}
+                                                                          <span> - </span>
+                                                                          {prod.name_ar}
+                                                                      </span>
+                                                                      <Check
+                                                                          className={cn(
+                                                                              'ms-auto',
+                                                                              value === prod.name_ar ? 'opacity-100' : 'opacity-0',
+                                                                          )}
+                                                                      />
+                                                                  </CommandItem>
+                                                              ))}
                                                     {/*</CommandGroup>*/}
                                                 </CommandList>
                                             </Command>
