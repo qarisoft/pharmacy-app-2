@@ -9,7 +9,7 @@ import {
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { Command, CommandItem, CommandList } from '@/components/ui/command';
+import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -226,6 +226,44 @@ export default function SaleForm({
 
     const { t, __ } = useLang();
 
+    const getDefaultCheck = useCallback(
+        (p: Product, i: number) => {
+            if (products.length == 1) {
+                return products[0].id == p.id;
+            }
+            return i == 0;
+        },
+        [products],
+    );
+
+    const filterFunc = useCallback<(value: string, search: string, keywords: string[] | undefined) => 0 | 1>(
+        (value: string, search: string, keywords: string[] | undefined) => {
+            // console.log('va',value,'s',search,keywords);
+            const p = allProducts.find((ii) => ii.id.toString() == value);
+
+            if (search == '' || !p) {
+                return 0;
+            }
+            if (p.unit_price <= 0) {
+                return 0;
+            }
+            const a = Number(search);
+            if (a && search.trim().length < 3) {
+                return (p.code == a) ?1:0;
+            } else {
+                if (p.name_ar && p.name_ar.trim().includes(search.trim())) {
+                    return 1;
+                }
+                if (p.name_en && p.name_en.trim().includes(search.trim())) {
+                    return 1;
+                }
+            }
+
+            return (p.barcode && p.barcode == search) ? 1 : 0;
+        },
+        [allProducts],
+    );
+
     return (
         <div>
             <AppLayout breadcrumbs={breadcrumbs}>
@@ -280,9 +318,9 @@ export default function SaleForm({
                                                     quantityRef.current?.focus();
                                                 }
                                                 if (!open) {
-                                                    // if (k.key == 'ArrowDown') {
-                                                    //     setOpen(true);
-                                                    // }
+                                                    if (k.key == 'ArrowDown') {
+                                                        setProductOpen(true);
+                                                    }
                                                 }
                                             }}
                                         >
@@ -327,38 +365,41 @@ export default function SaleForm({
                                             }}
                                             className="w-[400px] p-0"
                                         >
-                                            <Command>
-                                                <Input
+                                            <Command
+
+                                                id={'product-select'}
+                                                key={'product-select'}
+
+
+                                                filter={filterFunc}>
+                                                <CommandInput
+                                                    value={value}
+                                                    onValueChange={setValue}
+                                                    id={'prod-c-input'}
                                                     placeholder="Search framework..."
                                                     className="h-9 w-[500px]"
-                                                    value={value}
-                                                    onChange={(s) => {
-                                                        if (product) {
-                                                            setProduct(undefined);
-                                                        }
-                                                        setValue(s.target.value);
-                                                    }}
                                                 />
-                                                <CommandList>
-                                                    {products.map((prod, i) => (
-                                                        <CommandItem
+                                                <CommandList
 
-                                                            // defaultChecked={}
-                                                            // aria-selected={i==0}
-                                                            // data-selected={i==0}
-                                                            defaultChecked={products.length==1}
-                                                            key={`${prod.id}-${i}`}
-                                                            value={prod.id.toString()}
-                                                            onSelect={() => onProductSelected(prod)}
-                                                        >
-                                                            <span>
-                                                                {i}
-                                                                <span> - </span>
-                                                                {prod.name_ar}
-                                                            </span>
-                                                            <Check className={cn('ms-auto', value === prod.name_ar ? 'opacity-100' : 'opacity-0')} />
-                                                        </CommandItem>
-                                                    ))}
+                                                >
+                                                    <CommandGroup>
+                                                        {value==''?[]: allProducts.map((prod, i) => (
+                                                            <CommandItem
+                                                                key={`${prod.id}-pc`}
+                                                                value={prod.id.toString()}
+                                                                onSelect={() => onProductSelected(prod)}
+                                                            >
+                                                                <span>
+                                                                    {i}
+                                                                    <span> - </span>
+                                                                    {prod.name_ar}
+                                                                </span>
+                                                                <Check
+                                                                    className={cn('ms-auto', value === prod.name_ar ? 'opacity-100' : 'opacity-0')}
+                                                                />
+                                                            </CommandItem>
+                                                        ))}
+                                                    </CommandGroup>
                                                     {/*</CommandGroup>*/}
                                                 </CommandList>
                                             </Command>
