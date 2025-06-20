@@ -237,6 +237,7 @@ return [
         $this->returnItems();
         $this->withDrows();
         $this->saleItems();
+        $this->createdBy();
 
     }
 }
