@@ -50,8 +50,8 @@ class SaleItemSeeder extends Seeder
             $with_draws = require 'data/sales/with_draws.php';
             WithDraw::factory()->createMany($with_draws);
         }
-        if (file_exists('data/created_by.php')) {
-            $created_by = require 'data/created_by.php';
+        if (file_exists('data/sales/created_by.php')) {
+            $created_by = require 'data/sales/created_by.php';
             CreatedBy::factory()->createMany($created_by);
         }
 
