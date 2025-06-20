@@ -215,10 +215,10 @@ return [
     {
 
         $a0='';
-        foreach (CreatedBy::all() as $p) {
+        foreach (CreatedBy::where('created_by_type','App\Models\Sales\SaleHeader')->get() as $p) {
 
             $a1 = '['
-                . $this->mkId('id', $p->id)
+//                . $this->mkId('id', $p->id)
                 . $this->mkId('user_id', $p->user_id)
                 . $this->mkId('created_by_id', $p->created_by_id)
                 . $this->mk('created_by_type', $p->created_by_type)
@@ -227,7 +227,7 @@ return [
                 . $this->_close();
             $a0 = $a0 . $a1;
         }
-        $this->makeFile('data/created_by.php',$a0);
+        $this->makeFile('data/sales/created_by.php',$a0);
     }
 
     public function handle(): void

@@ -35,6 +35,7 @@ class ProductResource extends Resource
             TextInput::make('name_en'),
             TextInput::make('scientific_name'),
             TextInput::make('barcode'),
+            TextInput::make('code'),
             Select::make('company_id')->relationship('company', 'name'),
 
         ];
