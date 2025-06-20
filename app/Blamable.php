@@ -16,13 +16,14 @@ trait Blamable
 {
     protected static function bootBlamable(): void
     {
-        static::created(function ( $model) {
-//            $model->update([
-//                'created_by'=>auth()->id() ?? 1
-//            ]);
-            $model->createdBy()->create([
-                'user_id' => auth()->id()??1,
-            ]);
+        static::created(function ($model) {
+
+            if (auth()->check()) {
+
+                $model->createdBy()->create([
+                    'user_id' => auth()->id() ?? 1,
+                ]);
+            }
         });
     }
 
@@ -30,8 +31,4 @@ trait Blamable
     {
         return $this->morphOne(CreatedBy::class, 'created_by');
     }
-//    public function createdBy(): BelongsTo
-//    {
-//        return $this->belongsTo(User::class, 'created_by');
-//    }
 }
