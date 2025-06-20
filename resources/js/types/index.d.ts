@@ -87,6 +87,8 @@ export type Product = {
     id: number;
     name_ar: string;
     barcode: string;
+    barcode2: string;
+    code: number;
     name_en: string;
     units: Unit[];
     unit_price: number;

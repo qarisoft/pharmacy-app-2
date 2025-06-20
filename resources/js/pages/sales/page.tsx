@@ -1,18 +1,3 @@
-import { Button } from '@/components/ui/button';
-import { Command, CommandEmpty, CommandItem, CommandList } from '@/components/ui/command';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import AppLayout from '@/layouts/app-layout';
-import { cn } from '@/lib/utils';
-import { type BreadcrumbItem, Product, SaleHeader, SaleItem, SalePointForm, Unit } from '@/types';
-import { Head, router, useForm, usePage } from '@inertiajs/react';
-import { Check, ChevronsUpDown, Minus, Plus, XCircle } from 'lucide-react';
-import * as React from 'react';
-import { FormEventHandler, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useLang } from '@/hooks/useLang';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -22,8 +7,23 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Command, CommandItem, CommandList } from '@/components/ui/command';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useLang } from '@/hooks/useLang';
+import AppLayout from '@/layouts/app-layout';
+import { cn } from '@/lib/utils';
+import { type BreadcrumbItem, Product, SaleHeader, SaleItem, SalePointForm, Unit } from '@/types';
+import { Head, router, useForm, usePage } from '@inertiajs/react';
+import { Check, ChevronsUpDown, Minus, Plus, XCircle } from 'lucide-react';
+import * as React from 'react';
+import { FormEventHandler, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
@@ -31,13 +31,18 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function SaleForm({ autofocus, header, items, path, header_id }: {
-    autofocus: boolean,
-    header?: SaleHeader,
-    items?: SaleItem[],
-    path: string
-    header_id?: number
-
+export default function SaleForm({
+    autofocus,
+    header,
+    items,
+    path,
+    header_id,
+}: {
+    autofocus: boolean;
+    header?: SaleHeader;
+    items?: SaleItem[];
+    path: string;
+    header_id?: number;
 }) {
     const {
         props: { products: allProducts },
@@ -60,9 +65,7 @@ export default function SaleForm({ autofocus, header, items, path, header_id }: 
         e.preventDefault();
         if (path == 'update') {
             put(route(`sales.${path}`, header_id), {});
-
         } else {
-
             post(route(`sales.${path}`), {});
         }
     };
@@ -83,28 +86,29 @@ export default function SaleForm({ autofocus, header, items, path, header_id }: 
 
     const [value, setValue] = React.useState('');
 
-
     const products = useMemo(() => {
         return allProducts.filter((p) => {
-            if (value=='') {
-                return false
+            if (value == '') {
+                return false;
             }
             if (p.unit_price <= 0) {
                 return false;
             }
-            if (!value) {
-                return true;
+            const a = Number(value);
+            if (a && value.trim().length < 3) {
+                return p.code == a;
+            } else {
+                if (p.name_ar && p.name_ar.trim().includes(value.trim())) {
+                    return true;
+                }
+                if (p.name_en && p.name_en.trim().includes(value.trim())) {
+                    return true;
+                }
             }
-            if (p.name_ar && p.name_ar.trim().includes(value.trim())) {
-                return true;
-            }
-            if (p.name_en && p.name_en.trim().includes(value.trim())) {
-                return true;
-            }
+
             return !!(p.barcode && p.barcode.includes(value));
         });
     }, [allProducts, value]);
-
 
     useEffect(() => {
         if (product) {
@@ -197,13 +201,9 @@ export default function SaleForm({ autofocus, header, items, path, header_id }: 
 
     const onItemDelete = useCallback(
         (item: SaleItem, index: number) => {
-
             if (path == 'update' && item.id) {
-                setDelItem(item.id)
-
-
+                setDelItem(item.id);
             } else {
-
                 setData((d: SalePointForm) => {
                     return {
                         header: d.header,
@@ -221,52 +221,43 @@ export default function SaleForm({ autofocus, header, items, path, header_id }: 
         setProductOpen(false);
         window.requestAnimationFrame(() => {
             quantityRef.current?.focus();
-        })
-    }, [])
+        });
+    }, []);
 
-    const { t, __ } = useLang()
-
-
-
+    const { t, __ } = useLang();
 
     return (
         <div>
             <AppLayout breadcrumbs={breadcrumbs}>
-
-                <AlertDialog  open={delItem!=undefined} >
-
+                <AlertDialog open={delItem != undefined}>
                     <AlertDialogContent dir={'ltr'}>
                         <AlertDialogHeader>
                             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                             <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete your
-                                account and remove your data from our servers.
+                                This action cannot be undone. This will permanently delete your account and remove your data from our servers.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                            <AlertDialogCancel
-                            onClick={()=>setDelItem(undefined)}
-                            
-                            >Cancel</AlertDialogCancel>
+                            <AlertDialogCancel onClick={() => setDelItem(undefined)}>Cancel</AlertDialogCancel>
                             <AlertDialogAction
                                 disabled={processing}
                                 className={'bg-red-600'}
-
                                 onClick={() => {
-                                    router.post(route('sales.destroy_item', delItem), {}, {
-                                        showProgress: true,
-                                        preserveState: false,
-                                        onSuccess:()=>{
-                                            setDelItem(undefined)
+                                    router.post(
+                                        route('sales.destroy_item', delItem),
+                                        {},
+                                        {
+                                            showProgress: true,
+                                            preserveState: false,
+                                            onSuccess: () => {
+                                                setDelItem(undefined);
+                                            },
                                         },
-                                        // onFinish:()=>{
-                                        //     router.reload()
-                                        // }
-                                    })
-                                    // destroy(route('sales.destroy', row.original.id));
+                                    );
                                 }}
-
-                            >Continue</AlertDialogAction>
+                            >
+                                Continue
+                            </AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
@@ -300,7 +291,7 @@ export default function SaleForm({ autofocus, header, items, path, header_id }: 
                                                     variant="outline"
                                                     role="combobox"
                                                     aria-expanded={open}
-                                                    className="w-[400px] overflow-x-clip justify-between pe-2"
+                                                    className="w-[400px] justify-between overflow-x-clip pe-2"
                                                 >
                                                     {product ? product.name_ar : 'Search'}
                                                     <div className="flex">
@@ -349,20 +340,23 @@ export default function SaleForm({ autofocus, header, items, path, header_id }: 
                                                     }}
                                                 />
                                                 <CommandList>
-                                                    {/*<CommandGroup>*/}
-                                                    {products.map((product) => (
+                                                    {products.map((prod, i) => (
                                                         <CommandItem
-                                                            key={product.id}
-                                                            // onClick={()=>{
-                                                            //     setProductOpen(false)
-                                                            // }}
-                                                            value={product.id.toString()}
-                                                            onSelect={() => onProductSelected(product)}
+
+                                                            // defaultChecked={}
+                                                            // aria-selected={i==0}
+                                                            // data-selected={i==0}
+                                                            defaultChecked={products.length==1}
+                                                            key={`${prod.id}-${i}`}
+                                                            value={prod.id.toString()}
+                                                            onSelect={() => onProductSelected(prod)}
                                                         >
-                                                            {product.name_ar}
-                                                            <Check
-                                                                className={cn('ms-auto', value === product.name_ar ? 'opacity-100' : 'opacity-0')}
-                                                            />
+                                                            <span>
+                                                                {i}
+                                                                <span> - </span>
+                                                                {prod.name_ar}
+                                                            </span>
+                                                            <Check className={cn('ms-auto', value === prod.name_ar ? 'opacity-100' : 'opacity-0')} />
                                                         </CommandItem>
                                                     ))}
                                                     {/*</CommandGroup>*/}
@@ -491,20 +485,18 @@ export default function SaleForm({ autofocus, header, items, path, header_id }: 
                         />
 
                         <div className="flex gap-2 p-3">
-                            <Button
-                                disabled={processing}
-                                ref={saveButtonRef} onClick={onSubmit}>
+                            <Button disabled={processing} ref={saveButtonRef} onClick={onSubmit}>
                                 {__('save')}
                             </Button>
                             {path == 'update' ? (
-
                                 <Button
                                     disabled={processing}
                                     variant={'outline'}
                                     onClick={(e) => {
-                                        e.preventDefault()
-                                        router.get(route('sales.create'))
-                                    }}>
+                                        e.preventDefault();
+                                        router.get(route('sales.create'));
+                                    }}
+                                >
                                     {__('new')}
                                 </Button>
                             ) : (
@@ -512,14 +504,15 @@ export default function SaleForm({ autofocus, header, items, path, header_id }: 
                                     variant={'outline'}
                                     disabled={processing}
                                     onClick={(e) => {
-                                        e.preventDefault()
+                                        e.preventDefault();
                                         post(route('sales.store'), {
                                             onSuccess: () => {
-                                                router.get(route('sales.create'))
-                                            }
-                                        })
+                                                router.get(route('sales.create'));
+                                            },
+                                        });
                                         // router.get(route('sales.create'))
-                                    }}>
+                                    }}
+                                >
                                     {__('save and new')}
                                 </Button>
                             )}
@@ -531,7 +524,6 @@ export default function SaleForm({ autofocus, header, items, path, header_id }: 
     );
 }
 
-
 function SaleDataTable({
     items,
     getUnit,
@@ -540,11 +532,11 @@ function SaleDataTable({
     saleTotal,
     updateRowUnit,
     updateRowQuantity,
-    disabled
+    disabled,
 }: {
     saleTotal: number;
     saleUnitTotal: number;
-    disabled: boolean
+    disabled: boolean;
 
     items: SaleItem[];
     getUnit: (item: SaleItem) => Unit | undefined;
@@ -552,7 +544,7 @@ function SaleDataTable({
     updateRowUnit: (v: string, i: number) => void;
     updateRowQuantity: (by: -1 | 1, i: number) => void;
 }) {
-    const { __ } = useLang()
+    const { __ } = useLang();
     return (
         <div>
             <div className="h-10"></div>
@@ -573,12 +565,8 @@ function SaleDataTable({
                     <TableBody>
                         {items.map((item, index) => (
                             <TableRow key={`data-item-${item.product_id}-${index}`}>
-                                <TableCell
-
-                                    className="font-medium">{item.id}</TableCell>
-                                <TableCell
-
-                                    className="font-medium">{item.product.name_ar}</TableCell>
+                                <TableCell className="font-medium">{item.id}</TableCell>
+                                <TableCell className="font-medium">{item.product.name_ar}</TableCell>
 
                                 <TableCell>
                                     <div className={'flex items-center justify-center gap-1'}>
@@ -621,11 +609,13 @@ function SaleDataTable({
                                 <TableCell className={'text-center select-none'}>
                                     {(getUnit(item)?.count ?? 0) * item.product.unit_price * item.quantity}
                                 </TableCell>
-                                <TableCell className="text-end" >
+                                <TableCell className="text-end">
                                     <Button
                                         disabled={disabled}
                                         onClick={() => onItemDelete(item, index)}
-                                        variant={'link'} className={'px-1.5 py-1 text-red-700'}>
+                                        variant={'link'}
+                                        className={'px-1.5 py-1 text-red-700'}
+                                    >
                                         del
                                     </Button>
                                 </TableCell>
@@ -653,23 +643,23 @@ function Details({
     setDiscount,
     setNote,
     setAddition,
-    goNext
+    goNext,
 }: {
     saleTotal: number;
     header: SaleHeader;
     setDiscount: (a: number) => void;
     setAddition: (a: number) => void;
     setNote: (a: string) => void;
-    goNext: () => void
+    goNext: () => void;
 }) {
     const discount = header.discount;
     const addition = header.addition;
     const note = header.note;
 
-    const discountRef = useRef<HTMLInputElement>(null)
-    const additionRef = useRef<HTMLInputElement>(null)
-    const noteRef = useRef<HTMLInputElement>(null)
-    const { __ } = useLang()
+    const discountRef = useRef<HTMLInputElement>(null);
+    const additionRef = useRef<HTMLInputElement>(null);
+    const noteRef = useRef<HTMLInputElement>(null);
+    const { __ } = useLang();
     return (
         <form>
             <div className="flex gap-3">
