@@ -3,6 +3,7 @@
 namespace App\Models\Products;
 
 use App\Blamable;
+use App\Models\Activities\Close;
 use App\Models\Activities\CreatedBy;
 use App\Models\Sales\SaleItem;
 use App\Models\Store\ProductInput;
@@ -126,6 +127,11 @@ class Product extends Model
     {
         Cache::forget('products');
         Product::cache();
+    }
+
+    public function closed(): MorphOne
+    {
+        return $this->morphOne(Close::class, 'closeable');
     }
 
 

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->double('unit_price')->nullable();
             $table->string('barcode')->nullable();
             $table->string('barcode2')->unique();
+            $table->integer('code')->default(1);
             $table->timestamps();
         });
     }

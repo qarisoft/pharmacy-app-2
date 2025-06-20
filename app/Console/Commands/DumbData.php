@@ -91,6 +91,7 @@ return [
                 . $this->mkId('id', $p->id)
                 . $this->mkIdZero('unit_price', $p->unit_price)
                 . $this->mk('barcode', $p->barcode)
+                . $this->mkIdZero('code', $p->code??1)
                 . $this->mk('barcode2', $p->barcode2)
                 . $this->mk('name_ar', $p->name_ar)
                 . $this->mk('name_en', $p->name_en)

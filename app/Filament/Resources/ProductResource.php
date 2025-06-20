@@ -57,20 +57,22 @@ class ProductResource extends Resource
             ->columns([
                 TextColumn::make('id'),
                 TextColumn::make('barcode2')->copyable(),
+//                TextColumn::make('closed.count'),
+
                 TextColumn::make('name_ar')->searchable()->copyable()
                     ->label(__('name_ar')),
-                TextColumn::make('name_en')->searchable(),
+//                TextColumn::make('name_en')->searchable(),
                 TextColumn::make('lastStoreItem.unit_cost_price')->label(__('l_cost_price')),
                 TextColumn::make('unit_price')->numeric(),
                 TextColumn::make('cost_price')->numeric()->label(__('cost_price')),
                 TextColumn::make('inputs')
                     ->label(__('in_store'))
                     ->state(fn(Product $record) => $record->inputItemsCount() - $record->soldItemsCount()),
-                TextColumn::make('scientific_name')->label(__('scientific_name')),
-                TextColumn::make('barcode')->searchable(),
-                TextColumn::make('company.name')
-                    ->label(__('company'))
-                    ->badge(),
+//                TextColumn::make('scientific_name')->label(__('scientific_name')),
+//                TextColumn::make('barcode')->searchable(),
+//                TextColumn::make('company.name')
+//                    ->label(__('company'))
+//                    ->badge(),
             ])
             ->filters([
 //                SelectFilter::make('header')
@@ -84,6 +86,12 @@ class ProductResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('Close')
+                    ->visible(fn(Product $record)=>!$record->closed()->exists())
+                    ->action(fn(Product $record)=>$record->closed()->create())
+
+
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
