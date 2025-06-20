@@ -57,7 +57,6 @@ class ProductResource extends Resource
             ->columns([
                 TextColumn::make('id'),
                 TextColumn::make('barcode2')->copyable(),
-//                TextColumn::make('closed.count'),
 
                 TextColumn::make('name_ar')->searchable()->copyable()
                     ->label(__('name_ar')),
@@ -68,6 +67,7 @@ class ProductResource extends Resource
                 TextColumn::make('inputs')
                     ->label(__('in_store'))
                     ->state(fn(Product $record) => $record->inputItemsCount() - $record->soldItemsCount()),
+                TextColumn::make('units.count'),
 //                TextColumn::make('scientific_name')->label(__('scientific_name')),
 //                TextColumn::make('barcode')->searchable(),
 //                TextColumn::make('company.name')
@@ -78,8 +78,12 @@ class ProductResource extends Resource
 //                SelectFilter::make('header')
 //                    ->relationship('header', 'bill_number')
 //                    ->options(fn (): array => ProductInputHeader::query()->pluck('bill_number', 'id')->all()),
+
                 Filter::make('noPrice')->label(__('no_price'))
                     ->query(fn (Builder $query): Builder => $query->where('unit_price', 0)),
+
+                Filter::make('noUnits')->label(__('no units'))
+                    ->query(fn (Builder $query): Builder => $query->doesntHave('units')),
 
                 Filter::make('withPrice')->label(__('withPrice'))
                     ->query(fn (Builder $query): Builder => $query->where('unit_price', '>',0))

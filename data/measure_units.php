@@ -445,7 +445,7 @@ return [
 ['id'=>450,'name'=>'حبة','is_cost'=>0,'product_id'=>325,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>1,'created_at'=>'2025-06-12 06:43:45','updated_at'=>'2025-06-12 06:43:45',],
 ['id'=>451,'name'=>'باكت','is_cost'=>1,'product_id'=>325,'discount'=>0,'sell_price'=>0,'cost_price'=>480,'count'=>10,'created_at'=>'2025-06-12 06:44:09','updated_at'=>'2025-06-20 19:42:04',],
 ['id'=>452,'name'=>'باكت','is_cost'=>0,'product_id'=>326,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>1,'created_at'=>'2025-06-12 06:46:44','updated_at'=>'2025-06-12 06:46:44',],
-['id'=>453,'name'=>'باكت','is_cost'=>0,'product_id'=>327,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>1,'created_at'=>'2025-06-12 06:48:05','updated_at'=>'2025-06-12 06:48:05',],
+['id'=>453,'name'=>'شريط','is_cost'=>0,'product_id'=>327,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>1,'created_at'=>'2025-06-12 06:48:05','updated_at'=>'2025-06-20 21:25:35',],
 ['id'=>454,'name'=>'امبولة','is_cost'=>0,'product_id'=>328,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>1,'created_at'=>'2025-06-12 06:58:41','updated_at'=>'2025-06-12 06:58:41',],
 ['id'=>455,'name'=>'باكت','is_cost'=>1,'product_id'=>328,'discount'=>0,'sell_price'=>0,'cost_price'=>265,'count'=>2,'created_at'=>'2025-06-12 06:59:52','updated_at'=>'2025-06-20 19:42:04',],
 ['id'=>456,'name'=>'امبولة','is_cost'=>0,'product_id'=>329,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>1,'created_at'=>'2025-06-12 07:01:22','updated_at'=>'2025-06-12 07:01:22',],
@@ -531,7 +531,7 @@ return [
 ['id'=>537,'name'=>'باكت','is_cost'=>0,'product_id'=>387,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>7,'created_at'=>'2025-06-15 08:01:54','updated_at'=>'2025-06-15 08:01:54',],
 ['id'=>538,'name'=>'علبة','is_cost'=>0,'product_id'=>388,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>1,'created_at'=>'2025-06-15 08:05:16','updated_at'=>'2025-06-15 08:05:16',],
 ['id'=>539,'name'=>'شريط','is_cost'=>0,'product_id'=>389,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>1,'created_at'=>'2025-06-15 08:07:08','updated_at'=>'2025-06-15 08:10:49',],
-['id'=>540,'name'=>'باكت','is_cost'=>0,'product_id'=>389,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>10,'created_at'=>'2025-06-15 08:10:59','updated_at'=>'2025-06-15 08:10:59',],
+['id'=>540,'name'=>'باكت','is_cost'=>1,'product_id'=>389,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>10,'created_at'=>'2025-06-15 08:10:59','updated_at'=>'2025-06-20 21:27:07',],
 ['id'=>541,'name'=>'شريط','is_cost'=>0,'product_id'=>391,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>1,'created_at'=>'2025-06-15 08:16:35','updated_at'=>'2025-06-15 08:16:35',],
 ['id'=>542,'name'=>'باكت','is_cost'=>0,'product_id'=>391,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>2,'created_at'=>'2025-06-15 08:16:48','updated_at'=>'2025-06-15 08:16:48',],
 ['id'=>543,'name'=>'شريط','is_cost'=>0,'product_id'=>392,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>1,'created_at'=>'2025-06-15 08:20:50','updated_at'=>'2025-06-15 08:20:50',],
@@ -627,5 +627,9 @@ return [
 ['id'=>635,'name'=>'فيالة','is_cost'=>1,'product_id'=>446,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>1,'created_at'=>'2025-06-20 20:56:05','updated_at'=>'2025-06-20 20:56:46',],
 ['id'=>636,'name'=>'default','is_cost'=>1,'product_id'=>447,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>1,'created_at'=>'2025-06-20 20:58:24','updated_at'=>'2025-06-20 20:59:14',],
 ['id'=>637,'name'=>'default','is_cost'=>0,'product_id'=>448,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>1,'created_at'=>'2025-06-20 21:00:05','updated_at'=>'2025-06-20 21:00:05',],
+['id'=>638,'name'=>'حبة','is_cost'=>1,'product_id'=>345,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>1,'created_at'=>'2025-06-20 21:23:12','updated_at'=>'2025-06-20 21:23:15',],
+['id'=>639,'name'=>'شريط','is_cost'=>0,'product_id'=>390,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>1,'created_at'=>'2025-06-20 21:24:16','updated_at'=>'2025-06-20 21:24:26',],
+['id'=>640,'name'=>'باكت','is_cost'=>1,'product_id'=>390,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>4,'created_at'=>'2025-06-20 21:24:39','updated_at'=>'2025-06-20 21:24:42',],
+['id'=>641,'name'=>'باكت','is_cost'=>1,'product_id'=>327,'discount'=>0,'sell_price'=>0,'cost_price'=>0,'count'=>2,'created_at'=>'2025-06-20 21:25:59','updated_at'=>'2025-06-20 21:26:09',],
 
 ];
