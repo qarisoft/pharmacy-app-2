@@ -47,7 +47,7 @@ class ProductInputHeaderResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id'),
-                TextColumn::make('bill_number')
+                TextColumn::make('bill_number')->searchable()
                     ->label(__('bill_number')),
                 TextColumn::make('total_price')
                     ->summarize(Sum::make('Sum'))

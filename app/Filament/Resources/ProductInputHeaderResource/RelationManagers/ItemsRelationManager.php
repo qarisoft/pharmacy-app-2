@@ -61,7 +61,7 @@ class ItemsRelationManager extends RelationManager
                 }),
                 DatePicker::make('expire_date')
                     ->columnSpan(2),
-                Select::make('payment_type')->options(['debit'=>'debit','cash'=>'cash']),
+                Select::make('payment_type')->options(['debit'=>'debit','cash'=>'cash'])->default('cash'),
 
                 Forms\Components\TextInput::make('unit_cost_price')
                     ->numeric()->default(0),
@@ -79,7 +79,7 @@ class ItemsRelationManager extends RelationManager
 //                Tables\Columns\TextColumn::make('payment_type'),
 //                Tables\Columns\TextColumn::make('unit_cost_price'),
                 Tables\Columns\TextColumn::make('product.unit_price') ->label('unit sell price'),
-                Tables\Columns\TextColumn::make('product.cost_price') ->label('unit sell price'),
+                Tables\Columns\TextColumn::make('product.cost_price') ->label('unit cost price'),
                 Tables\Columns\TextColumn::make('quantity'),
                 Tables\Columns\TextColumn::make('total_cost_price')->money(locale: 'en'),
             ])
