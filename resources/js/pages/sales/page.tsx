@@ -236,7 +236,7 @@ export default function SaleForm({
     const getUnitCost=useCallback((u:Unit,p:Product)=>{
         return (u.count * p.unit_price ) - (u.discount??0)
     },[])
-    const headerId=header.id
+    const headerId=data.header?.id
 
     return (
         <div>
@@ -690,6 +690,7 @@ function Details({
     const discountRef = useRef<HTMLInputElement>(null);
     const additionRef = useRef<HTMLInputElement>(null);
     const noteRef = useRef<HTMLInputElement>(null);
+    // const noteRef = useRef<HTMLInputElement>(null);
     const { __ } = useLang();
     return (
         <form>
@@ -725,17 +726,20 @@ function Details({
                 </div>
                 <div className="flex-1">
                     <Label>{__('اسم العميل')}</Label>
-                    <Input
+                    <div className="">
+
+                    <input
                         defaultValue={customerName}
                         onKeyDown={(k) => {
                             if (k.key == 'Enter') {
-                                goNext();
+                                noteRef.current?.focus()
                             }
                         }}
-                        ref={noteRef}
-                        className={'overflow-x-auto border'}
+                        // ref={noteRef}
+                        className={'overflow-x-auto border w-full rounded-md px-2  py-1'}
                         onChange={(e) => setCustomerName(e.target.value)}
                     />
+                    </div>
                 </div>
 
             </div>
@@ -743,11 +747,11 @@ function Details({
                 <Label>{__('note')}</Label>
                 <Input
                     defaultValue={note}
-                    onKeyDown={(k) => {
-                        if (k.key == 'Enter') {
-                            goNext();
-                        }
-                    }}
+                    // onKeyDown={(k) => {
+                    //     if (k.key == 'Enter') {
+                    //         goNext();
+                    //     }
+                    // }}
                     ref={noteRef}
                     className={'overflow-x-auto border'}
                     onChange={(e) => setNote(e.target.value)}

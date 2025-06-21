@@ -28,13 +28,16 @@ function TableComponent({ row }: ShowProps) {
             </TableHeader>
             <TableBody >
                 {items.map((itm) => (
-                    <TableRow key={itm.id}>
-                        <TableCell className="p-4">{itm.product.name_ar}</TableCell>
-                        <TableCell className="p-4">{itm.quantity}</TableCell>
-                        <TableCell className="p-4">{getUnitCost(itm.unit_id, itm.product)}</TableCell>
-                        <TableCell className="p-4">{itm.end_price}</TableCell>
+                    <TableRow key={itm.id} className={'h-fit'}>
+                        <TableCell className=" min-w-[40vw]">{itm.product.name_ar}</TableCell>
+                        <TableCell className="">{itm.quantity}</TableCell>
+                        <TableCell className="">{getUnitCost(itm.unit_id, itm.product)}</TableCell>
+                        <TableCell className="">{itm.end_price}</TableCell>
                     </TableRow>
                 ))}
+                <TableRow>
+                    <TableCell></TableCell>
+                </TableRow>
             </TableBody>
 
         </Table>
@@ -49,8 +52,8 @@ export default function ({ row }: ShowProps) {
     return (
 
 
-        <div className={'p-4 h-screen flex justify-center'}>
-            <div className="rounded border p-4 h-full flex flex-col ">
+        <div className={'p-4 h-screen  flex justify-center'}>
+            <div className="rounded border p-4 h-full overflow-y-auto flex flex-col ">
                 <div className="mb-5 flex justify-between px-2">
                     <div className="flex-1">
                         <div className="">{'صيدلية المحيا'}</div>
@@ -79,10 +82,16 @@ export default function ({ row }: ShowProps) {
                 <div className="">
                     <div
                         style={{backgroundColor:'#d1d5dc'}}
-                        className=" mb-4 border p-1 text-center">{'قاتورة بيع نقدا'}</div>
+                        className=" mb-4 border p-1 print:bg-muted text-center">{'قاتورة بيع نقدا'}</div>
 
                     <div className="flex justify-between px-2">
-                        <div className="">{'اسم العميل'}</div>
+                        <div className="flex flex-1">
+
+                        <div className="p-1">{'اسم العميل'}</div>
+                            <div className="px-1"> : </div>
+                        <div className="border-b border-dotted p-1 flex-1">{row.customer_name}</div>
+                        </div>
+                        <div className="w-10"></div>
 
                         <div className="">
                             <span>
