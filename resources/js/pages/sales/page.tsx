@@ -236,6 +236,7 @@ export default function SaleForm({
     const getUnitCost=useCallback((u:Unit,p:Product)=>{
         return (u.count * p.unit_price ) - (u.discount??0)
     },[])
+    const headerId=header.id
 
     return (
         <div>
@@ -431,6 +432,15 @@ export default function SaleForm({
                                     />
                                 </div>
                             </div>
+                            {(path=='update'&&headerId)&&(
+
+                            <Button
+                                onClick={(e)=>{
+                                    e.preventDefault()
+                                    router.get(route('sales.show',headerId))
+                                }}
+                                className="">print</Button>
+                            )}
                         </div>
 
                         <SaleDataTable

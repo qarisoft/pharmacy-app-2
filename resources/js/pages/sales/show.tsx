@@ -1,6 +1,7 @@
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useLang } from '@/hooks/useLang';
 import { Product, SaleHeader, SaleItem } from '@/types';
+import AppLayout from '@/layouts/app-layout';
 
 type ShowProps = { row: SaleHeader & { id: number; items: SaleItem[] } };
 
@@ -29,8 +30,8 @@ function TableComponent({ row }: ShowProps) {
                 {items.map((itm) => (
                     <TableRow key={itm.id}>
                         <TableCell className="p-4">{itm.product.name_ar}</TableCell>
-                        <TableCell className="p-4">{getUnitCost(itm.unit_id, itm.product)}</TableCell>
                         <TableCell className="p-4">{itm.quantity}</TableCell>
+                        <TableCell className="p-4">{getUnitCost(itm.unit_id, itm.product)}</TableCell>
                         <TableCell className="p-4">{itm.end_price}</TableCell>
                     </TableRow>
                 ))}
@@ -46,8 +47,10 @@ export default function ({ row }: ShowProps) {
     // const today = row.created_at;
     const today = new Date(`${row.created_at}`).toLocaleDateString('ar');
     return (
-        <div className={'p-4 h-screen'}>
-            <div className="rounded border p-4 h-full flex flex-col">
+
+
+        <div className={'p-4 h-screen flex justify-center'}>
+            <div className="rounded border p-4 h-full flex flex-col ">
                 <div className="mb-5 flex justify-between px-2">
                     <div className="flex-1">
                         <div className="">{'صيدلية المحيا'}</div>
@@ -60,13 +63,23 @@ export default function ({ row }: ShowProps) {
                         </div>
                     </div>
                     <div className="flex-1">
-                        <div className="text-center">Al-mohia Pharmacy</div>
-                        <div className="text-center">{__('bill')}</div>
+                        {/*<div className="text-center">Al-mohia Pharmacy</div>*/}
+                        <div className="text-center font-bold">{__('صيدلية المحيا')}</div>
                     </div>
-                    <div className="flex-1"></div>
+                    <div className="flex-1">
+                        <div className="">Al-mohaia Pharma</div>
+                        <div className="">Outstanding medical service</div>
+                        <div className="">
+                            <span className="">{'777357884'}</span>
+                            <span> - </span>
+                            <span className="">{'733495100'}</span>
+                        </div>
+                    </div>
                 </div>
                 <div className="">
-                    <div className=" mb-4 bg-muted p-1 text-center">{'قاتورة بيع نقدا'}</div>
+                    <div
+                        style={{backgroundColor:'#d1d5dc'}}
+                        className=" mb-4 border p-1 text-center">{'قاتورة بيع نقدا'}</div>
 
                     <div className="flex justify-between px-2">
                         <div className="">{'اسم العميل'}</div>
