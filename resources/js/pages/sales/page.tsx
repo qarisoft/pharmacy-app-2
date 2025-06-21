@@ -86,29 +86,6 @@ export default function SaleForm({
 
     const [value, setValue] = React.useState('');
 
-    const products = useMemo(() => {
-        return allProducts.filter((p) => {
-            if (value == '') {
-                return false;
-            }
-            if (p.unit_price <= 0) {
-                return false;
-            }
-            const a = Number(value);
-            if (a && value.trim().length < 3) {
-                return p.code == a;
-            } else {
-                if (p.name_ar && p.name_ar.trim().includes(value.trim())) {
-                    return true;
-                }
-                if (p.name_en && p.name_en.trim().includes(value.trim())) {
-                    return true;
-                }
-            }
-
-            return !!(p.barcode && p.barcode.includes(value));
-        });
-    }, [allProducts, value]);
 
     useEffect(() => {
         if (product) {
@@ -226,18 +203,9 @@ export default function SaleForm({
 
     const { t, __ } = useLang();
 
-    const getDefaultCheck = useCallback(
-        (p: Product, i: number) => {
-            if (products.length == 1) {
-                return products[0].id == p.id;
-            }
-            return i == 0;
-        },
-        [products],
-    );
 
     const filterFunc = useCallback<(value: string, search: string, keywords: string[] | undefined) => 0 | 1>(
-        (value: string, search: string, keywords: string[] | undefined) => {
+        (value: string, search: string) => {
             // console.log('va',value,'s',search,keywords);
             const p = allProducts.find((ii) => ii.id.toString() == value);
 
