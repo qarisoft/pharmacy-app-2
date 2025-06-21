@@ -485,6 +485,12 @@ export default function SaleForm({
                                     header: { ...d.header, note: a },
                                 }))
                             }
+                            setCustomerName={(a: string) =>
+                                setData((d) => ({
+                                    items: d.items,
+                                    header: { ...d.header, customer_name: a },
+                                }))
+                            }
                             setAddition={(a: number) =>
                                 setData((d) => ({
                                     items: d.items,
@@ -656,17 +662,20 @@ function Details({
     setNote,
     setAddition,
     goNext,
+    setCustomerName
 }: {
     saleTotal: number;
     header: SaleHeader;
     setDiscount: (a: number) => void;
     setAddition: (a: number) => void;
     setNote: (a: string) => void;
+    setCustomerName: (a: string) => void;
     goNext: () => void;
 }) {
     const discount = header.discount;
     const addition = header.addition;
     const note = header.note;
+    const customerName = header.customer_name;
 
     const discountRef = useRef<HTMLInputElement>(null);
     const additionRef = useRef<HTMLInputElement>(null);
@@ -705,9 +714,9 @@ function Details({
                     />
                 </div>
                 <div className="flex-1">
-                    <Label>{__('note')}</Label>
+                    <Label>{__('اسم العميل')}</Label>
                     <Input
-                        defaultValue={note}
+                        defaultValue={customerName}
                         onKeyDown={(k) => {
                             if (k.key == 'Enter') {
                                 goNext();
@@ -715,9 +724,24 @@ function Details({
                         }}
                         ref={noteRef}
                         className={'overflow-x-auto border'}
-                        onChange={(e) => setNote(e.target.value)}
+                        onChange={(e) => setCustomerName(e.target.value)}
                     />
                 </div>
+
+            </div>
+            <div className="flex-1">
+                <Label>{__('note')}</Label>
+                <Input
+                    defaultValue={note}
+                    onKeyDown={(k) => {
+                        if (k.key == 'Enter') {
+                            goNext();
+                        }
+                    }}
+                    ref={noteRef}
+                    className={'overflow-x-auto border'}
+                    onChange={(e) => setNote(e.target.value)}
+                />
             </div>
             <div className="h-1"></div>
 

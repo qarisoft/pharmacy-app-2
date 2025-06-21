@@ -1,10 +1,10 @@
-import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useLang } from '@/hooks/useLang';
 import { Product, SaleHeader, SaleItem } from '@/types';
 
 type ShowProps = { row: SaleHeader & { id: number; items: SaleItem[] } };
 
-const getUnitCost = (unit_id, p: Product) => {
+const getUnitCost = (unit_id:number, p: Product) => {
     const u = p.units.find((i) => i.id == unit_id);
     if (!u) return 0;
     return u.count * p.unit_price - (u.discount ?? 0);
