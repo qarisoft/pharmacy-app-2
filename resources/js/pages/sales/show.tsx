@@ -2,6 +2,7 @@ import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 import { useLang } from '@/hooks/useLang';
 import { Product, SaleHeader, SaleItem } from '@/types';
 import AppLayout from '@/layouts/app-layout';
+import AppearanceTabs from '@/components/appearance-tabs';
 
 type ShowProps = { row: SaleHeader & { id: number; items: SaleItem[] } };
 
@@ -52,7 +53,11 @@ export default function ({ row }: ShowProps) {
     return (
 
 
-        <div className={'p-4 h-screen  flex justify-center'}>
+        <div className={'p-4 h-screen  flex justify-center '}>
+            <div className="absolute right-0 opacity-0 hover:opacity-90">
+
+            <AppearanceTabs />
+            </div>
             <div className="rounded border p-4 h-full overflow-y-auto flex flex-col ">
                 <div className="mb-5 flex justify-between px-2">
                     <div className="flex-1">
