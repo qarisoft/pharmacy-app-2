@@ -236,7 +236,7 @@ export default function SaleForm({
     const getUnitCost=useCallback((u:Unit,p:Product)=>{
         return (u.count * p.unit_price ) - (u.discount??0)
     },[])
-    const headerId=data.header?.id
+    const headerId=header_id
 
     return (
         <div>
