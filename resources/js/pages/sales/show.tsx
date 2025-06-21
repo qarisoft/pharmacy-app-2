@@ -59,11 +59,12 @@ export default function ({ row }: ShowProps) {
         <div>
             <div
 
-                className={'p-4 h-screen  flex justify-center '}>
+                className={'p-1 h-screen w-screen  flex justify-center '}>
                 <div className="absolute right-0 opacity-0 hover:opacity-90">
 
                     <AppearanceTabs />
                 </div>
+
                 <div
                     className="rounded border p-4 h-full overflow-y-auto flex flex-col ">
                     <div className="mb-5 flex justify-between px-2">
@@ -93,8 +94,8 @@ export default function ({ row }: ShowProps) {
                     </div>
                     <div className="">
                         <div
-                            style={{backgroundColor:'#d1d5dc'}}
-                            className=" mb-4 border p-1 print:bg-muted text-center">{'قاتورة بيع نقدا'}</div>
+                            // style={{backgroundColor:'#d1d5dc'}}
+                            className=" mb-4 border p-1 bg-muted print:bg-muted text-center">{'قاتورة بيع نقدا'}</div>
 
                         <div className="flex justify-between px-2">
                             <div className="flex flex-1">

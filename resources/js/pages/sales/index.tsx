@@ -127,20 +127,6 @@ export default function Dashboard({ pageData }: { pageData: PaginatedData<SaleHe
             header: __('note'),
             cell: ({ row }) => <div className="capitalize">{row.original.note}</div>,
         },
-        {
-            accessorKey:'print',
-            header:'print',
-            cell:({row})=>(
-                <div>
-                    <Button
-                        onClick={(e)=>{
-                            e.preventDefault()
-                            router.get(route('sales.show',row.original.id))
-                        }}
-                        className="">print</Button>
-                </div>
-            )
-        },
 
         {
             id: 'edit',
@@ -149,16 +135,26 @@ export default function Dashboard({ pageData }: { pageData: PaginatedData<SaleHe
                 // const payment = row.original
 
                 return (
-                    <div className={'flex justify-end items-center'}>
+                    <div className={'flex  justify-end items-center'}>
+                        <Button
+                            variant={'link'}
+
+                            onClick={(e)=>{
+                                e.preventDefault()
+                                router.get(route('sales.show',row.original.id))
+                            }}
+                            className="hover:cursor-pointer">print</Button>
+
                         <Button
                             onClick={() => {
                                 router.get(route('sales.edit', row.original.id));
                             }}
-                            variant={'outline'}
+                            variant={'link'}
                             className={'px-3 py-2 text-xs'}
                         >
                             {__('edit')}
                         </Button>
+
                         <div className="">
 
                         <AlertDialog  >
