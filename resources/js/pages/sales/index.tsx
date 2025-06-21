@@ -127,6 +127,20 @@ export default function Dashboard({ pageData }: { pageData: PaginatedData<SaleHe
             header: __('note'),
             cell: ({ row }) => <div className="capitalize">{row.original.note}</div>,
         },
+        {
+            accessorKey:'print',
+            header:'print',
+            cell:({row})=>(
+                <div>
+                    <Button
+                        onClick={(e)=>{
+                            e.preventDefault()
+                            router.get(route('sales.show',row.original.id))
+                        }}
+                        className="">print</Button>
+                </div>
+            )
+        },
 
         {
             id: 'edit',
