@@ -9,7 +9,7 @@ import {
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
+import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -160,18 +160,19 @@ export default function SaleForm({
     const saleTotal = useMemo(() => {
         let a = 0;
         data.items.forEach((item) => {
-            const ep = (getUnit(item)?.count ?? 0) * item.product.unit_price * item.quantity;
-            a += ep;
+            const u=getUnit(item)
+            const ep = (((u?.count ?? 0) * item.product.unit_price)-  (u?.discount??0)) * item.quantity;
+            a += ep ;
         });
-        // a+=data.header.addition
         return a;
     }, [data.items]);
 
     const saleUnitTotal = useMemo(() => {
         let a = 0;
         data.items.forEach((item) => {
-            const ep = (getUnit(item)?.count ?? 0) * item.product.unit_price;
-            a += ep;
+            const u=getUnit(item)
+            const ep = (u?.count ?? 0) * item.product.unit_price;
+            a += ep - (u?.discount??0);
         });
         return a;
     }, [data.items]);
@@ -215,6 +216,7 @@ export default function SaleForm({
             if (p.unit_price <= 0) {
                 return 0;
             }
+            if (p.barcode2==search)return 1
             const a = Number(search);
             if (a && search.trim().length < 3) {
                 return p.code == a ? 1 : 0;
@@ -227,10 +229,13 @@ export default function SaleForm({
                 }
             }
 
-            return p.barcode && p.barcode == search ? 1 : 0;
+            return (p.barcode && p.barcode.includes(search)) ? 1 : 0;
         },
         [allProducts],
     );
+    const getUnitCost=useCallback((u:Unit,p:Product)=>{
+        return (u.count * p.unit_price ) - (u.discount??0)
+    },[])
 
     return (
         <div>
@@ -405,7 +410,7 @@ export default function SaleForm({
                                                 <SelectItem key={`unit-${u.id}`} value={u.id.toString()}>
                                                     <div className="flex gap-3">
                                                         <span>{u.name}</span>
-                                                        <span>{u.count * product?.unit_price}</span>
+                                                        <span>{getUnitCost(u,product)}</span>
                                                         <span>{'RYS'}</span>
                                                     </div>
                                                 </SelectItem>

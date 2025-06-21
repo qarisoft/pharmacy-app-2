@@ -58,6 +58,7 @@ class ProductResource extends Resource
             ->columns([
                 TextColumn::make('id'),
                 TextColumn::make('barcode2')->copyable(),
+                TextColumn::make('units.discount'),
 
                 TextColumn::make('name_ar')->searchable()->copyable()
                     ->label(__('name_ar')),

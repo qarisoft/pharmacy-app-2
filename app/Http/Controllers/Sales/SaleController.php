@@ -64,7 +64,8 @@ class SaleController extends Controller
             $header->items()->create([
                 'product_id' => $item['product_id'],
                 'quantity' => $item['quantity'],
-                'end_price' =>$unit->count * $item['quantity'] * $product->unit_price,
+
+                'end_price' =>(($unit->count  * $product->unit_price) - $unit->discount )*$item['quantity'],
                 'product_price' => $product->unit_price,
                 'unit_id' => $item['unit_id'],
                 'unit_count' => $unit->count,
@@ -116,13 +117,15 @@ class SaleController extends Controller
                 $saleItem->update([
                     'quantity' => $item['quantity'],
                     'unit_id' => $item['unit_id'],
-                    'end_price' =>$unit->count * $item['quantity'] * $product->unit_price,
+//                    'end_price' =>$unit->count * $item['quantity'] * $product->unit_price,
+                    'end_price' =>(($unit->count  * $product->unit_price) - $unit->discount )*$item['quantity'],
                 ]);
             }else{
                 $header->items()->create([
                     'product_id' => $item['product_id'],
                     'quantity' => $item['quantity'],
-                    'end_price' => $unit->count * $item['quantity'] * $product->unit_price,
+//                    'end_price' => $unit->count * $item['quantity'] * $product->unit_price,
+                    'end_price' =>(($unit->count  * $product->unit_price) - $unit->discount )*$item['quantity'],
                     'product_price' => $product->unit_price,
                     'unit_id' => $item['unit_id'],
                     'unit_count' => $unit->count,

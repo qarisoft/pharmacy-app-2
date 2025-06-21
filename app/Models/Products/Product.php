@@ -190,6 +190,13 @@ class Product extends Model
         static::updated(function (Product $product) {
             Product::recache();
         });
+
+
+        static ::creating(function (Product $product) {
+            if (!$product->barcode2){
+                $product->barcode2=fake()->unique()->randomNumber(8);
+            }
+        });
     }
 
 
