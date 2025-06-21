@@ -81,7 +81,9 @@ class SaleController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return inertia('sales/show', [
+            'row' => SaleHeader::query()->with('items')->find($id)
+        ]);
     }
 
     /**

@@ -15,13 +15,14 @@ class SaleHeader extends Model
     use HasFactory,Blamable;
     protected $guarded=[];
     protected $with=['createdBy'];
+    protected $casts=['created_at'=>'datetime','updated_at'=>'datetime'];
 
     public function items(): HasMany
     {
         return $this->hasMany(SaleItem::class, 'header_id');
     }
 
-    
+
     #[Scope]
     public function byAuthUser(Builder $query): Builder
     {

@@ -79,14 +79,16 @@ export default function Dashboard({ pageData }: { pageData: PaginatedData<SaleHe
         {
             accessorKey: 'id',
             header: __('id'),
-            cell: ({ row }) => <div 
+            cell: ({ row }) => <div
             onClick={()=>router.get(route('sales.edit',row.original.id))}
             className="capitalize hover:cursor-pointer">{row.original.id}</div>,
         },
         {
             accessorKey: 'end_price',
             header: __('total price'),
-            cell: ({ row }) => <div className="capitalize">{row.original.end_price}</div>,
+            cell: ({ row }) => <div
+                onClick={()=>router.get(route('sales.show',row.original.id))}
+                className="capitalize">{row.original.end_price}</div>,
         },
 
         {
