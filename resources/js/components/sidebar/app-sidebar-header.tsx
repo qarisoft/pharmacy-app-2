@@ -18,8 +18,8 @@ export function AppSidebarHeader({ breadcrumbs = [] }: { breadcrumbs?: Breadcrum
             </div>
             <div className="flex gap-2">
 
-                <div className="">{sheft.user?.name}</div>
-                <div className="">{sheft.date}</div>
+                <div className="">{sheft?.user?.name}</div>
+                <div className="">{sheft?.date}</div>
                 <div
                     className="hover:cursor-pointer"
                     onClick={() => {
