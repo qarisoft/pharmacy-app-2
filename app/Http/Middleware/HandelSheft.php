@@ -16,9 +16,9 @@ class HandelSheft
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Cache::has('sheft')) {
-            return  redirect()->route('sheft');
-        }
+//        if (!Cache::has('sheft')) {
+//            return  redirect()->route('sheft');
+//        }
         return $next($request);
     }
 }

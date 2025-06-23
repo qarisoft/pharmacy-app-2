@@ -54,7 +54,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Product::recache();
 
     })->name('products.pull');
-    Route::resource('sales', SaleController::class)->middleware(HandelSheft::class);
+    Route::resource('sales', SaleController::class);
     Route::post('sales/destroy_item/{id}',[SaleController::class,'destroy_item'])->name('sales.destroy_item');
 
 });
