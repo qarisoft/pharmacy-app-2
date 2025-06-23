@@ -35,6 +35,7 @@ class ProductResource extends Resource
             TextInput::make('name_en'),
             TextInput::make('scientific_name'),
             TextInput::make('barcode'),
+            TextInput::make('barcode2')->readonly(),
             TextInput::make('code'),
             Select::make('company_id')->relationship('company', 'name'),
 
@@ -71,7 +72,7 @@ class ProductResource extends Resource
                     ->state(fn(Product $record) => $record->inputItemsCount() - $record->soldItemsCount()),
                 TextColumn::make('units.count'),
 //                TextColumn::make('scientific_name')->label(__('scientific_name')),
-//                TextColumn::make('barcode')->searchable(),
+                TextColumn::make('barcode')->searchable(),
 //                TextColumn::make('company.name')
 //                    ->label(__('company'))
 //                    ->badge(),

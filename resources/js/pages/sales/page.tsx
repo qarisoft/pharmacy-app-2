@@ -148,7 +148,7 @@ export default function SaleForm({
 
     const onQuantityChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const a = Number(e.target.value);
-        if (a > 0) {
+        if (a >= 0) {
             setQuantity(a);
         }
     }, []);
@@ -305,7 +305,7 @@ export default function SaleForm({
                                                     aria-expanded={open}
                                                     className="w-[400px] justify-between overflow-x-clip pe-2"
                                                 >
-                                                    {product ? product.name_ar : 'Search'}
+                                                    {product ? `${ product.name_ar} ${product.barcode2}` : 'Search'}
                                                     <div className="flex">
                                                         <ChevronsUpDown className="opacity-50" />
                                                     </div>
@@ -348,30 +348,25 @@ export default function SaleForm({
                                                     className="h-9 w-[500px]"
                                                 />
                                                 <CommandList>
-                                                        {value &&
-                                                        <CommandEmpty className={'p-2 text-center'}>Not found</CommandEmpty>
-                                                        }
-                                                        {value == ''
-                                                            ? []
-                                                            : allProducts.map((prod, i) => (
-                                                                  <CommandItem
-                                                                      key={`${prod.id}-pc`}
-                                                                      value={prod.id.toString()}
-                                                                      onSelect={() => onProductSelected(prod)}
-                                                                  >
-                                                                      <span>
-                                                                          {i}
-                                                                          <span> - </span>
-                                                                          {prod.name_ar}
-                                                                      </span>
-                                                                      <Check
-                                                                          className={cn(
-                                                                              'ms-auto',
-                                                                              value === prod.name_ar ? 'opacity-100' : 'opacity-0',
-                                                                          )}
-                                                                      />
-                                                                  </CommandItem>
-                                                              ))}
+                                                    {value && <CommandEmpty className={'p-2 text-center'}>Not found</CommandEmpty>}
+                                                    {value == ''
+                                                        ? []
+                                                        : allProducts.map((prod, i) => (
+                                                              <CommandItem
+                                                                  key={`${prod.id}-pc`}
+                                                                  value={prod.id.toString()}
+                                                                  onSelect={() => onProductSelected(prod)}
+                                                              >
+                                                                  <span>
+                                                                      {i}
+                                                                      <span> - </span>
+                                                                      {prod.name_ar}
+                                                                  </span>
+                                                                  <Check
+                                                                      className={cn('ms-auto', value === prod.name_ar ? 'opacity-100' : 'opacity-0')}
+                                                                  />
+                                                              </CommandItem>
+                                                          ))}
                                                     {/*</CommandGroup>*/}
                                                 </CommandList>
                                             </Command>
@@ -389,7 +384,7 @@ export default function SaleForm({
                                         disabled={!product}
                                         type={'number'}
                                         className={'border p-1'}
-                                        value={quantity}
+                                        defaultValue={quantity}
                                         onChange={onQuantityChange}
                                     />
                                 </FormInputGroup>
@@ -411,7 +406,7 @@ export default function SaleForm({
                                                 <SelectItem key={`unit-${u.id}`} value={u.id.toString()}>
                                                     <div className="flex gap-3">
                                                         <span>{u.name}</span>
-                                                        <span>{getUnitCost(u,product)}</span>
+                                                        <span>{getUnitCost(u, product)}</span>
                                                         <span>{'RYS'}</span>
                                                     </div>
                                                 </SelectItem>
@@ -432,14 +427,16 @@ export default function SaleForm({
                                     />
                                 </div>
                             </div>
-                            {(path=='update'&&headerId)&&(
-
-                            <Button
-                                onClick={(e)=>{
-                                    e.preventDefault()
-                                    router.get(route('sales.show',headerId))
-                                }}
-                                className="">print</Button>
+                            {path == 'update' && headerId && (
+                                <Button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        router.get(route('sales.show', headerId));
+                                    }}
+                                    className=""
+                                >
+                                    print
+                                </Button>
                             )}
                         </div>
 

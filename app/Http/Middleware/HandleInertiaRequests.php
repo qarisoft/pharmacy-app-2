@@ -68,6 +68,7 @@ class HandleInertiaRequests extends Middleware
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
+            'sheft'=>Cache::get('sheft'),
             'locale' => app()->currentLocale(),
             'lang_json'=>$json_a,
             'success'=>session()->get('success'),

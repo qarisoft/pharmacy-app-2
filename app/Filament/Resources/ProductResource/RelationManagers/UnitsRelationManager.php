@@ -15,7 +15,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 //use Illuminate\Database\Eloquent\Builder;
 //use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use Filament\Forms\Components\Toggle;
 class UnitsRelationManager extends RelationManager
 {
     protected static string $relationship = 'units';
@@ -32,6 +32,7 @@ class UnitsRelationManager extends RelationManager
                     ->required()
                     ->minValue(1)
                     ->default(2),
+                    Toggle::make('is_cost'),
 
                 TextInput::make('discount')->numeric()->default(0),
 //                TextInput::make('product.uni')->readOnly(),

@@ -7,7 +7,9 @@ use App\Models\Products\MeasureUnit;
 use App\Models\Products\Product;
 use App\Models\Sales\SaleHeader;
 use App\Models\Sales\SaleItem;
+use App\Models\Sales\Sheft;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class SaleController extends Controller
 {
@@ -17,8 +19,14 @@ class SaleController extends Controller
 
     public function index()
     {
+        $q=SaleHeader::query();
+        // if (Cache::has('sheft')){
+        //     $q=$q->whereBelongsTo(Cache::get('sheft'));
+        // }
+        $q2=$q;
         return inertia('sales/index', [
-            'pageData' => $this->paginate(SaleHeader::query()
+            'total' => $q2->sum('end_price'),
+            'pageData' => $this->paginate($q
             // ->where('created_at','>','2025-06-16T12:01:02')
             ->orderBy('created_at','desc'))
         ]);
@@ -45,6 +53,11 @@ class SaleController extends Controller
         ];
 //        dd($data);
         $header = SaleHeader::factory()->create($data);
+        if (Cache::has('sheft')) {
+            $s=Cache::get('sheft');
+            $header->update(['sheft_id' => $s->id]);
+//            $s->headers()->attach([$header->id]);
+        }
 //        dd($request->items);
 //        $table->foreignId('product_id');
 //        $table->foreignId('header_id')->nullable();

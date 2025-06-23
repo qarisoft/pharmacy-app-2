@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SaleHeader extends Model
@@ -17,6 +19,10 @@ class SaleHeader extends Model
     protected $with=['createdBy'];
     protected $casts=['created_at'=>'datetime','updated_at'=>'datetime'];
 
+    public function sheft(): BelongsTo
+    {
+        return $this->belongsTo(SaleHeader::class,'sheft_id');
+    }
     public function items(): HasMany
     {
         return $this->hasMany(SaleItem::class, 'header_id');

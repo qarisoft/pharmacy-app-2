@@ -1,5 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem, type PaginatedData, Product, SaleHeader, User } from '@/types';
+import { type BreadcrumbItem, type PaginatedData, Product, SaleHeader, Sheft, User } from '@/types';
 import { Head, router, useForm, usePage } from '@inertiajs/react';
 import * as React from 'react';
 import DataTable from '@/components/data-table/data-table';
@@ -18,6 +18,8 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+// import numberToText from 'number-to-text';
+import { NumericFormat } from 'react-number-format';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
@@ -46,8 +48,8 @@ type SaleHeaderObject=SaleHeader&{id:number}&{
         user:User
     }
 }
-export default function Dashboard({ pageData }: { pageData: PaginatedData<SaleHeaderObject> }) {
-    // const a = usePage();
+export default function Dashboard({ pageData,total }: { pageData: PaginatedData<SaleHeaderObject>,total:number }) {
+    const a = usePage<{sheft:Sheft}>();
     // console.log(a.props.products);
     // const ref = useRef<HTMLInputElement>(null);
     // const [product, setProduct] = useState<Product | undefined>(undefined);
@@ -196,11 +198,25 @@ export default function Dashboard({ pageData }: { pageData: PaginatedData<SaleHe
 
     ];
 
-    console.log(pageData.data);
+    console.log(total);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                <div className="flex gap-2">
+                    <div className="flex gap-2">
+                        <div className="">{'الاجمالي'}</div>
+                        <div className="">{(total+a.props.sheft.inBox).toLocaleString()}</div>
+                    </div>
+                <div className="flex gap-2">
+                    <div className="">{'المبيعات'}</div>
+                    <div className="">{total.toLocaleString()}</div>
+                </div>
+                <div className="flex gap-2">
+                    <div className="">{'الصندوق'}</div>
+                    <div className="">{a.props.sheft.inBox.toLocaleString()}</div>
+                </div>
+                </div>
 
                 <DataTable pageData={pageData} columns={columns} path={'products'} />
 

@@ -116,3 +116,11 @@ export type SalePointForm = {
     header: SaleHeader;
     items: SaleItem[];
 };
+
+
+export type Sheft={
+    id:number,
+    user:User,
+    date:string,
+    inBox:number
+}

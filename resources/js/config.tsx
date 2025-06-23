@@ -24,7 +24,12 @@ const mainNavItemsGroups: NavItemGroup[] = [
         title: 'Dashboard',
         href: 'dashboard',
         icon: LayoutGrid,
-        items: [],
+        items: [
+            {
+                title: 'Index',
+                href: 'dashboard',
+            },
+        ],
     },
     {
         title: 'Products',
