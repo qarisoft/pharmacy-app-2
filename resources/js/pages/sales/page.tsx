@@ -84,43 +84,87 @@ export default function SaleForm({
     const addButtonRef = useRef<HTMLInputElement>(null);
     const saveButtonRef = useRef<HTMLButtonElement>(null);
 
-    const [value, setValue] = React.useState('');
+    const onAddFunc = useCallback(() => {
+        if (product && unit) {
+            setData((d) => {
+                return {
+                    header: d.header,
+                    items: [
+                        ...d.items,
+                        {
+                            product_id: product.id,
+                            unit_id: unit.id,
+                            quantity: quantity,
+                            end_price: quantity * product.unit_price * unit.count,
+                            product: product,
+                        },
+                    ],
+                };
+            });
+            setProduct(undefined);
+            inputRef.current?.focus();
+            setQuantity(1);
+            setProductOpen(true);
+        }
+    }, [product, quantity, setData, unit]);
+    const onAdd = useCallback(
+        (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onAddFunc();
+        },
+        [onAddFunc],
+    );
+    const setProductFunc = useCallback(
+        (p: Product) => {
+            setProduct(p);
+            onAddFunc();
+            // window.requestAnimationFrame(()=>{
+            // })
+        },
+        [onAddFunc],
+    );
+    const setValueFunc = useCallback(
+        (s: string) => {
+            if ((s?.length??0) > 7) {
+                const a = allProducts.find((p) => {
+                    return p.barcode == s || p.barcode2 == s;
+                });
+                if (a) {
+                    // const isOld = data.items.find((i)=>i.product_id==a.id)
 
+                    setData('items', [
+                        ...data.items,
+                        {
+                            product_id: a.id,
+                            unit_id: a.units[0].id,
+                            quantity: 1,
+                            end_price: a.unit_price * a.units[0].count - a.units[0].discount,
+                            product: a,
+                        },
+                    ]);
+                    setValue('');
+                    setProduct(undefined)
+                    // setProductFunc(a)
+                }
+                else {
+                    setValue(s);
+                }
+            }
+            else {
+                setValue(s);
+            }
+        },
+        [allProducts, data.items, setData],
+    );
+
+    const [value, setValue] = React.useState('');
 
     useEffect(() => {
         if (product) {
             setUnit(product.units[0]);
         }
     }, [product]);
-
-    const onAdd = useCallback(
-        (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (product && unit) {
-                setData((d) => {
-                    return {
-                        header: d.header,
-                        items: [
-                            ...d.items,
-                            {
-                                product_id: product.id,
-                                unit_id: unit.id,
-                                quantity: quantity,
-                                end_price: quantity * product.unit_price * unit.count,
-                                product: product,
-                            },
-                        ],
-                    };
-                });
-                setProduct(undefined);
-                inputRef.current?.focus();
-                setQuantity(1);
-                setProductOpen(true);
-            }
-        },
-        [product, quantity, setData, unit],
-    );
 
     const onSelectChange = useCallback(
         (value: string) => {
@@ -160,9 +204,9 @@ export default function SaleForm({
     const saleTotal = useMemo(() => {
         let a = 0;
         data.items.forEach((item) => {
-            const u=getUnit(item)
-            const ep = (((u?.count ?? 0) * item.product.unit_price)-  (u?.discount??0)) * item.quantity;
-            a += ep ;
+            const u = getUnit(item);
+            const ep = ((u?.count ?? 0) * item.product.unit_price - (u?.discount ?? 0)) * item.quantity;
+            a += ep;
         });
         return a;
     }, [data.items]);
@@ -170,9 +214,9 @@ export default function SaleForm({
     const saleUnitTotal = useMemo(() => {
         let a = 0;
         data.items.forEach((item) => {
-            const u=getUnit(item)
+            const u = getUnit(item);
             const ep = (u?.count ?? 0) * item.product.unit_price;
-            a += ep - (u?.discount??0);
+            a += ep - (u?.discount ?? 0);
         });
         return a;
     }, [data.items]);
@@ -204,7 +248,6 @@ export default function SaleForm({
 
     const { t, __ } = useLang();
 
-
     const filterFunc = useCallback<(value: string, search: string, keywords: string[] | undefined) => 0 | 1>(
         (value: string, search: string) => {
             // console.log('va',value,'s',search,keywords);
@@ -216,7 +259,7 @@ export default function SaleForm({
             if (p.unit_price <= 0) {
                 return 0;
             }
-            if (p.barcode2==search)return 1
+            if (p.barcode2 == search) return 1;
             const a = Number(search);
             if (a && search.trim().length < 3) {
                 return p.code == a ? 1 : 0;
@@ -229,14 +272,14 @@ export default function SaleForm({
                 }
             }
 
-            return (p.barcode && p.barcode.includes(search)) ? 1 : 0;
+            return p.barcode && p.barcode.includes(search) ? 1 : 0;
         },
         [allProducts],
     );
-    const getUnitCost=useCallback((u:Unit,p:Product)=>{
-        return (u.count * p.unit_price ) - (u.discount??0)
-    },[])
-    const headerId=header_id
+    const getUnitCost = useCallback((u: Unit, p: Product) => {
+        return u.count * p.unit_price - (u.discount ?? 0);
+    }, []);
+    const headerId = header_id;
 
     return (
         <div>
@@ -305,7 +348,7 @@ export default function SaleForm({
                                                     aria-expanded={open}
                                                     className="w-[400px] justify-between overflow-x-clip pe-2"
                                                 >
-                                                    {product ? `${ product.name_ar} ${product.barcode2}` : 'Search'}
+                                                    {product ? `${product.name_ar} ${product.barcode2}` : 'Search'}
                                                     <div className="flex">
                                                         <ChevronsUpDown className="opacity-50" />
                                                     </div>
@@ -342,7 +385,7 @@ export default function SaleForm({
                                             <Command id={'product-select'} key={'product-select'} filter={filterFunc}>
                                                 <CommandInput
                                                     value={value}
-                                                    onValueChange={setValue}
+                                                    onValueChange={setValueFunc}
                                                     id={'prod-c-input'}
                                                     placeholder="Search framework..."
                                                     className="h-9 w-[500px]"
@@ -384,7 +427,7 @@ export default function SaleForm({
                                         disabled={!product}
                                         type={'number'}
                                         className={'border p-1'}
-                                        defaultValue={quantity}
+                                        value={quantity}
                                         onChange={onQuantityChange}
                                     />
                                 </FormInputGroup>
@@ -669,7 +712,7 @@ function Details({
     setNote,
     setAddition,
     goNext,
-    setCustomerName
+    setCustomerName,
 }: {
     saleTotal: number;
     header: SaleHeader;
@@ -724,21 +767,19 @@ function Details({
                 <div className="flex-1">
                     <Label>{__('اسم العميل')}</Label>
                     <div className="">
-
-                    <input
-                        defaultValue={customerName}
-                        onKeyDown={(k) => {
-                            if (k.key == 'Enter') {
-                                noteRef.current?.focus()
-                            }
-                        }}
-                        // ref={noteRef}
-                        className={'overflow-x-auto border w-full rounded-md px-2  py-1'}
-                        onChange={(e) => setCustomerName(e.target.value)}
-                    />
+                        <input
+                            defaultValue={customerName}
+                            onKeyDown={(k) => {
+                                if (k.key == 'Enter') {
+                                    noteRef.current?.focus();
+                                }
+                            }}
+                            // ref={noteRef}
+                            className={'w-full overflow-x-auto rounded-md border px-2 py-1'}
+                            onChange={(e) => setCustomerName(e.target.value)}
+                        />
                     </div>
                 </div>
-
             </div>
             <div className="flex-1">
                 <Label>{__('note')}</Label>
