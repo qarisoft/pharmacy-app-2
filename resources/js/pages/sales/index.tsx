@@ -49,7 +49,7 @@ type SaleHeaderObject=SaleHeader&{id:number}&{
     }
 }
 export default function Dashboard({ pageData,total }: { pageData: PaginatedData<SaleHeaderObject>,total:number }) {
-    const a = usePage<{sheft:Sheft}>();
+    const a = usePage<{sheft?:Sheft}>();
     // console.log(a.props.products);
     // const ref = useRef<HTMLInputElement>(null);
     // const [product, setProduct] = useState<Product | undefined>(undefined);
@@ -206,7 +206,7 @@ export default function Dashboard({ pageData,total }: { pageData: PaginatedData<
                 <div className="flex gap-2">
                     <div className="flex gap-2">
                         <div className="">{'الاجمالي'}</div>
-                        <div className="">{(total+a.props.sheft.inBox).toLocaleString()}</div>
+                        <div className="">{(total+(a.props.sheft?.inBox??0)).toLocaleString()}</div>
                     </div>
                 <div className="flex gap-2">
                     <div className="">{'المبيعات'}</div>
@@ -214,7 +214,7 @@ export default function Dashboard({ pageData,total }: { pageData: PaginatedData<
                 </div>
                 <div className="flex gap-2">
                     <div className="">{'الصندوق'}</div>
-                    <div className="">{a.props.sheft.inBox.toLocaleString()}</div>
+                    <div className="">{a.props.sheft?.inBox.toLocaleString()}</div>
                 </div>
                 </div>
 
